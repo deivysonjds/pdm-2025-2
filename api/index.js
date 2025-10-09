@@ -5,17 +5,19 @@ const headerJson = {
 };
 
 const instance = axios.create({
-  baseURL: "https://aos-2025-2-4uak.vercel.app/",
+  baseURL: "https://aos-2025-2-4uak.vercel.app",
   timeout: 1000,
 });
 
 export async function getTarefas() {
-  const { data } = await instance.get("/tasks");
-  return data?.results;
+  const {data} = await instance.get("/tasks");
+  console.log(data);
+  
+  return data;
 }
 
 export async function updateTarefa(tarefa) {
-  const { data } = await instance.put(
+  const {data} = await instance.put(
     `/tasks/${tarefa.objectId}`,
     { descricao: tarefa.descricao, concluida: tarefa.concluida },
     { headers: headerJson }
@@ -24,15 +26,17 @@ export async function updateTarefa(tarefa) {
 }
 
 export async function addTarefa({ descricao }) {
-  const { data } = await instance.post(
+  const {data} = await instance.post(
     `/tasks`,
-    { descricao },
-    { headers: headerJson }
+    {descricao: descricao, concluida: false},
+    { headers: headerJson}
   );
+  console.log(data);
+  
   return data;
 }
 
 export async function deleteTarefa(tarefa) {
-  const { data } = await instance.delete(`/tasks/${tarefa.objectId}`);
+  const {data} = await instance.delete(`/tasks/${tarefa.objectId}`);
   return data;
 }
